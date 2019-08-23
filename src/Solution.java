@@ -27,7 +27,6 @@ class Solution {
         return tn;
     }
 
-
     public void TreeTravel(TreeNode root) {
         if (root == null) return;
         System.out.println(root.val);
@@ -445,6 +444,28 @@ class Solution {
         return null;
     }
 
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        if(root==null)
+            return null;
+        else {
+            int ldep=maxDepth(root.left),rdep=maxDepth(root.right);
+            if(ldep==rdep)
+                return root;
+            else if(ldep>rdep)
+                return subtreeWithAllDeepest(root.left);
+            else
+                return subtreeWithAllDeepest(root.right);
+        }
+    }
+
+
+    int maxDepth(TreeNode root) {
+        if(root==null)
+            return 0;
+        else
+            return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
+    }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
@@ -452,11 +473,14 @@ class Solution {
         String a = "1";
         String b = "111";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.isHappy(7));
+//        System.out.println(solution.isHappy(7));
 
-        Integer[] arr = new Integer[]{3,9,20,null,null,15,7};
+        Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
         TreeNode root = solution.createBinaryTreeByArray(arr,0);
-        solution.TreeTravel(root);
+//        solution.TreeTravel(root);
+        System.out.println(solution.subtreeWithAllDeepest(root).val);
+//        Integer[] result = solution.BinaryTreeToArray(root);
+//        System.out.println(111);
 //        TreeNode root = solution.sortedArrayToBST(nums);
 //        solution.TreeTravel(root);
     }
