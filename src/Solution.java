@@ -13,6 +13,21 @@ class Solution {
         }
     }
 
+
+    public TreeNode createBinaryTreeByArray(Integer []array,int index){
+        TreeNode tn =null;
+        if(index<array.length){
+            Integer value = array[index];
+            if (value == null) return null;
+            tn =new TreeNode(value);
+            tn.left = createBinaryTreeByArray(array,index*2+1);
+            tn.right = createBinaryTreeByArray(array,index*2+2);
+            return tn;
+        }
+        return tn;
+    }
+
+
     public void TreeTravel(TreeNode root) {
         if (root == null) return;
         System.out.println(root.val);
@@ -438,6 +453,10 @@ class Solution {
         String b = "111";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
         System.out.println(solution.isHappy(7));
+
+        Integer[] arr = new Integer[]{3,9,20,null,null,15,7};
+        TreeNode root = solution.createBinaryTreeByArray(arr,0);
+        solution.TreeTravel(root);
 //        TreeNode root = solution.sortedArrayToBST(nums);
 //        solution.TreeTravel(root);
     }

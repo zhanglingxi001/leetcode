@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="60558474-c24f-4857-9e88-c2c76066eebb" name="Default" comment="" />
+    <list default="true" id="60558474-c24f-4857-9e88-c2c76066eebb" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/leetcode/Solution.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/leetcode/Solution.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Solution.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,12 +20,12 @@
       <file leaf-file-name="Solution.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Solution.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+            <state relative-caret-position="870">
+              <caret line="458" column="34" selection-start-line="458" selection-start-column="34" selection-end-line="458" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#11044#11045#0" expanded="true" />
-                <element signature="e#11085#11086#0" expanded="true" />
+                <element signature="e#11358#11359#0" expanded="true" />
+                <element signature="e#11408#11409#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -48,6 +53,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GradleLocalSettings">
     <option name="projectSyncType">
       <map>
@@ -71,12 +79,13 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="28" />
     <option name="y" value="50" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -109,6 +118,7 @@
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -184,16 +194,15 @@
       <updated>1565924600598</updated>
       <workItem from="1565924604840" duration="9252000" />
       <workItem from="1566197048941" duration="24322000" />
-      <workItem from="1566442524874" duration="10386000" />
+      <workItem from="1566442524874" duration="12011000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43960000" />
+    <option name="totallyTimeSpent" value="45585000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -204,19 +213,19 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.17755991" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.3293348" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.17775354" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49933776" visible="true" weight="0.2553305" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.499187" visible="true" weight="0.2553305" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info id="Structure" order="1" sideWeight="0.50066227" side_tool="true" visible="true" weight="0.2553305" />
+      <window_info id="Structure" order="1" sideWeight="0.500813" side_tool="true" visible="true" weight="0.2553305" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="5" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.31045753" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.2868048" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -243,8 +252,8 @@
           <caret line="354" column="38" selection-start-line="354" selection-start-column="38" selection-end-line="354" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11044#11045#0" expanded="true" />
-            <element signature="e#11085#11086#0" expanded="true" />
+            <element signature="e#11358#11359#0" expanded="true" />
+            <element signature="e#11408#11409#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -255,8 +264,8 @@
           <caret line="137" column="5" lean-forward="true" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11044#11045#0" expanded="true" />
-            <element signature="e#11085#11086#0" expanded="true" />
+            <element signature="e#11358#11359#0" expanded="true" />
+            <element signature="e#11408#11409#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -288,12 +297,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Solution.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        <state relative-caret-position="870">
+          <caret line="458" column="34" selection-start-line="458" selection-start-column="34" selection-end-line="458" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11044#11045#0" expanded="true" />
-            <element signature="e#11085#11086#0" expanded="true" />
+            <element signature="e#11358#11359#0" expanded="true" />
+            <element signature="e#11408#11409#0" expanded="true" />
           </folding>
         </state>
       </provider>
