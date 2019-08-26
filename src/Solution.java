@@ -27,7 +27,6 @@ class Solution {
         return tn;
     }
 
-
     public void TreeTravel(TreeNode root) {
         if (root == null) return;
         System.out.println(root.val);
@@ -445,49 +444,26 @@ class Solution {
         return null;
     }
 
-    public boolean isUgly(int num) {
-        if(num<=0) return false;
-        if(num ==1) return true;
-        if(num%2==0) return isUgly(num/2);
-        if(num%3==0) return isUgly(num/3);
-        if(num%5==0) return isUgly(num/5);
-        return false;
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        if(root==null)
+            return null;
+        else {
+            int ldep=maxDepth(root.left),rdep=maxDepth(root.right);
+            if(ldep==rdep)
+                return root;
+            else if(ldep>rdep)
+                return subtreeWithAllDeepest(root.left);
+            else
+                return subtreeWithAllDeepest(root.right);
+        }
     }
 
-    public String convertToBase7(int num) {
-        if(num==0) return "0";
-        StringBuilder sb = new StringBuilder();
-        int num1 = Math.abs(num);
-        while(num1!=0){
-            sb.insert(0,(char)(num1%7+'0'));
-            num1=num1/7;
-        }
-        if(num<0) sb.insert(0 ,'-');
-        return sb.toString();
-    }
 
-    public int maxLevelSum(TreeNode root) {
-        List<TreeNode> queue = new ArrayList<>();
-        int max = Integer.MIN_VALUE;
-        int min_level =1;
-        int level = 1;
-        queue.add(root);
-        while(!queue.isEmpty()){
-            int temp = 0;
-            List<TreeNode> childQueue = new ArrayList<>();
-            for(TreeNode tn:queue){
-                temp+=tn.val;
-                if(tn.left!=null) childQueue.add(tn.left);
-                if(tn.right!=null) childQueue.add(tn.right);
-            }
-            if(temp>max){
-                max = temp;
-                min_level = level;
-            }
-            level++;
-            queue = childQueue;
-        }
-        return min_level;
+    int maxDepth(TreeNode root) {
+        if(root==null)
+            return 0;
+        else
+            return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
     }
 
 
@@ -497,9 +473,15 @@ class Solution {
         String a = "1";
         String b = "111";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-//        System.out.println(solution.convertToBase7(-7));
-        Integer[] arr = new Integer[]{1,7,0,7,-8,null,null};
+//        System.out.println(solution.isHappy(7));
+
+        Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
         TreeNode root = solution.createBinaryTreeByArray(arr,0);
-        System.out.println(solution.maxLevelSum(root));
+//        solution.TreeTravel(root);
+        System.out.println(solution.subtreeWithAllDeepest(root).val);
+//        Integer[] result = solution.BinaryTreeToArray(root);
+//        System.out.println(111);
+//        TreeNode root = solution.sortedArrayToBST(nums);
+//        solution.TreeTravel(root);
     }
 }
