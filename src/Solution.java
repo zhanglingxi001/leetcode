@@ -445,6 +445,51 @@ class Solution {
         return null;
     }
 
+    public boolean isUgly(int num) {
+        if(num<=0) return false;
+        if(num ==1) return true;
+        if(num%2==0) return isUgly(num/2);
+        if(num%3==0) return isUgly(num/3);
+        if(num%5==0) return isUgly(num/5);
+        return false;
+    }
+
+    public String convertToBase7(int num) {
+        if(num==0) return "0";
+        StringBuilder sb = new StringBuilder();
+        int num1 = Math.abs(num);
+        while(num1!=0){
+            sb.insert(0,(char)(num1%7+'0'));
+            num1=num1/7;
+        }
+        if(num<0) sb.insert(0 ,'-');
+        return sb.toString();
+    }
+
+    public int maxLevelSum(TreeNode root) {
+        List<TreeNode> queue = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+        int min_level =1;
+        int level = 1;
+        queue.add(root);
+        while(!queue.isEmpty()){
+            int temp = 0;
+            List<TreeNode> childQueue = new ArrayList<>();
+            for(TreeNode tn:queue){
+                temp+=tn.val;
+                if(tn.left!=null) childQueue.add(tn.left);
+                if(tn.right!=null) childQueue.add(tn.right);
+            }
+            if(temp>max){
+                max = temp;
+                min_level = level;
+            }
+            level++;
+            queue = childQueue;
+        }
+        return min_level;
+    }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
@@ -452,12 +497,9 @@ class Solution {
         String a = "1";
         String b = "111";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.isHappy(7));
-
-        Integer[] arr = new Integer[]{3,9,20,null,null,15,7};
+//        System.out.println(solution.convertToBase7(-7));
+        Integer[] arr = new Integer[]{1,7,0,7,-8,null,null};
         TreeNode root = solution.createBinaryTreeByArray(arr,0);
-        solution.TreeTravel(root);
-//        TreeNode root = solution.sortedArrayToBST(nums);
-//        solution.TreeTravel(root);
+        System.out.println(solution.maxLevelSum(root));
     }
 }
