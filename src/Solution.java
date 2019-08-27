@@ -466,6 +466,65 @@ class Solution {
             return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
     }
 
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int [] map = new int [26];
+        for(int i=0;i<magazine.length();i++){
+            map[(magazine.charAt(i)-'a')]++;
+        }
+        for(int i=0;i<ransomNote.length();i++){
+            map[(ransomNote.charAt(i)-'a')]--;
+            if(map[(ransomNote.charAt(i)-'a')]<0) return false;
+        }
+        return true;
+    }
+
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> result = new ArrayList<>();
+        for(int i=1;i<10;i++){
+            if(i<=n){
+                result.add(i);
+                add(result,n,i);
+            }
+            else break;
+        }
+        return  result;
+    }
+    private void add(List<Integer> result, int n, int startNum){
+        startNum *= 10;
+        for(int i=0;i<10;i++,startNum++){
+            if(startNum<=n){
+                result.add(startNum);
+                add(result,n,startNum);
+            }
+            else return;
+        }
+    }
+
+    public int firstUniqChar(String s) {
+        int [] map = new int [26];
+        for(char c:s.toCharArray()) map[(c-'a')]++;
+        int min = -1;
+        for(int i=0;i<26;i++){
+            if (map[i]==1){
+                int index = s.indexOf((char)('a'+i));
+                if(index<min||min==-1) min = index;
+            }
+        }
+        return min;
+    }
+
+    public char findTheDifference(String s, String t) {
+        int [] map = new int [26];
+        for(char c:s.toCharArray()) map[(c-'a')]++;
+        for(char c:t.toCharArray()) map[(c-'a')]++;
+        for(int i=0;i<26;i++){
+            if(map[i]%2!=0) return (char)('a'+i);
+        }
+        return 'a';
+    }
+
+
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
@@ -478,7 +537,7 @@ class Solution {
         Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
         TreeNode root = solution.createBinaryTreeByArray(arr,0);
 //        solution.TreeTravel(root);
-        System.out.println(solution.subtreeWithAllDeepest(root).val);
+        System.out.println(solution.findTheDifference("abcd","abcde"));
 //        Integer[] result = solution.BinaryTreeToArray(root);
 //        System.out.println(111);
 //        TreeNode root = solution.sortedArrayToBST(nums);
