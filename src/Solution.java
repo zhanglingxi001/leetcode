@@ -525,19 +525,13 @@ class Solution {
 
 
     public String removeDuplicateLetters(String s) {
+        if(s.length()==0) return "";
         StringBuilder sb = new StringBuilder();
         sb.append(s.charAt(0));
         char last = s.charAt(0);
         for(int i=1;i<s.length();i++){
-
-            if(last<s.charAt(i)){
-                String str = sb.toString();
-                if(str.indexOf(s.charAt(i))==-1) {
-                    sb.append(s.charAt(i));
-                    last = s.charAt(i);
-                }
-                break;
-            }
+            String s1 = sb.toString();
+            if(s1.indexOf(s.charAt(i))!=-1) continue;
             while(last>s.charAt(i)){
                 String sub = s.substring(i+1,s.length());
                 if(sub.indexOf(last) != -1){
@@ -549,7 +543,7 @@ class Solution {
                     }
                     last = sb.charAt(sb.length()-1);
                 }
-                if(sub.indexOf(last) == -1){
+                else {
                     String str = sb.toString();
                     if(str.indexOf(s.charAt(i))==-1) {
                         sb.append(s.charAt(i));
@@ -558,11 +552,43 @@ class Solution {
                     break;
                 }
             }
-
+            if(last<s.charAt(i)){
+                String str = sb.toString();
+                if(str.indexOf(s.charAt(i))==-1) {
+                    sb.append(s.charAt(i));
+                    last = s.charAt(i);
+                }
+            }
         }
         return sb.toString();
     }
 
+    public int maxProduct(String[] words) {
+        int max = 0;
+        for(int i=0;i<words.length;i++) {
+            Set<Character> set = new HashSet<>();
+            for (char c : words[i].toCharArray()) set.add(c);
+            for (int j = i + 1; j < words.length; j++) {
+                boolean diff = true;
+                for (char c : words[j].toCharArray()) {
+                    if (set.contains(c)) {
+                        diff = false;
+                        break;
+                    }
+                }
+                if (diff) {
+                    int temp = words[i].length() * words[j].length();
+                    if (temp > max) max = temp;
+                }
+            }
+        }
+        return max;
+    }
+
+
+    public int bulbSwitch(int n) {
+       return (int)Math.sqrt(n);
+    }
 
 
     public static void main(String[] args) {
@@ -574,9 +600,9 @@ class Solution {
 //        System.out.println(solution.isHappy(7));
 
         Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
-        TreeNode root = solution.createBinaryTreeByArray(arr,0);
+        TreeNode root = solution.createBinaryTreeByArray(arr,5);
 //        solution.TreeTravel(root);
-        System.out.println(solution.removeDuplicateLetters("cbacdcbc"));
+        System.out.println(solution.bulbSwitch(25));
 //        Integer[] result = solution.BinaryTreeToArray(root);
 //        System.out.println(111);
 //        TreeNode root = solution.sortedArrayToBST(nums);
