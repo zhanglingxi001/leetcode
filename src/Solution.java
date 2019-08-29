@@ -524,6 +524,45 @@ class Solution {
     }
 
 
+    public String removeDuplicateLetters(String s) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(s.charAt(0));
+        char last = s.charAt(0);
+        for(int i=1;i<s.length();i++){
+
+            if(last<s.charAt(i)){
+                String str = sb.toString();
+                if(str.indexOf(s.charAt(i))==-1) {
+                    sb.append(s.charAt(i));
+                    last = s.charAt(i);
+                }
+                break;
+            }
+            while(last>s.charAt(i)){
+                String sub = s.substring(i+1,s.length());
+                if(sub.indexOf(last) != -1){
+                    sb.deleteCharAt(sb.length()-1);
+                    if(sb.length()==0){
+                        sb.append(s.charAt(i));
+                        last = s.charAt(i);
+                        break;
+                    }
+                    last = sb.charAt(sb.length()-1);
+                }
+                if(sub.indexOf(last) == -1){
+                    String str = sb.toString();
+                    if(str.indexOf(s.charAt(i))==-1) {
+                        sb.append(s.charAt(i));
+                        last = s.charAt(i);
+                    }
+                    break;
+                }
+            }
+
+        }
+        return sb.toString();
+    }
+
 
 
     public static void main(String[] args) {
@@ -537,7 +576,7 @@ class Solution {
         Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
         TreeNode root = solution.createBinaryTreeByArray(arr,0);
 //        solution.TreeTravel(root);
-        System.out.println(solution.findTheDifference("abcd","abcde"));
+        System.out.println(solution.removeDuplicateLetters("cbacdcbc"));
 //        Integer[] result = solution.BinaryTreeToArray(root);
 //        System.out.println(111);
 //        TreeNode root = solution.sortedArrayToBST(nums);
