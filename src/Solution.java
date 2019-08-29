@@ -590,19 +590,83 @@ class Solution {
        return (int)Math.sqrt(n);
     }
 
+    public String defangIPaddr(String address) {
+        StringBuilder sb = new StringBuilder();
+        for(char c:address.toCharArray()){
+            if(c=='.') sb.append("[.]");
+            else sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode a = headA;
+        ListNode b = headB;
+        while(a!=null&&b!=null){
+            a = a.next;
+            b = b.next;
+        }
+        while(a!=null){
+            headA=headA.next;
+            a = a.next;
+        }
+        while(b!=null){
+            headB=headB.next;
+            b = b.next;
+        }
+        while(headA!=headB){
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return headA;
+    }
+
+    public int[] twoSum(int[] numbers, int target) {
+        int[] res = new int[2];
+        int left = 0;
+        int right = numbers.length-1;
+        while(res[1]==0){
+            if(numbers[left]+numbers[right]==target){
+                res[0]=left+1;
+                res[1]=right+1;
+                break;
+            }
+            if(numbers[left]+numbers[right]>target) right--;
+            if(numbers[left]+numbers[right]<target) left++;
+        }
+        return res;
+    }
+
+    public String convertToTitle(int n) {
+        StringBuilder sb = new StringBuilder();
+        while(n>0){
+            if(n%26==0){
+                sb.append('Z');
+                n =n/26-1;
+            }
+            else {
+                sb.append((char) (n % 26 -1 + 'A'));
+                n /= 26;
+            }
+        }
+        return sb.reverse().toString();
+    }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {-10, -3, 0, 5, 9};
+        int[] nums = {2, 3, 4};
         String a = "1";
         String b = "111";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-//        System.out.println(solution.isHappy(7));
+        System.out.println(solution.convertToTitle(52));
 
         Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
         TreeNode root = solution.createBinaryTreeByArray(arr,5);
 //        solution.TreeTravel(root);
-        System.out.println(solution.bulbSwitch(25));
+//        int[] result = solution.twoSum(nums,6);
+//        System.out.println(result[0]);
+//        System.out.println(result[1]);
 //        Integer[] result = solution.BinaryTreeToArray(root);
 //        System.out.println(111);
 //        TreeNode root = solution.sortedArrayToBST(nums);
