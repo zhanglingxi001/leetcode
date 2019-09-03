@@ -652,14 +652,46 @@ class Solution {
         return sb.reverse().toString();
     }
 
+    public int titleToNumber(String s) {
+        int result = 0;
+        for(char c:s.toCharArray()){
+            int temp = c-'A'+1;
+            result = result*26+temp;
+        }
+        return result;
+    }
+
+    public int majorityElement(int[] nums) {
+        int result = nums[0];
+        int count = 0;
+        for(int c:nums){
+            if(c==result) count++;
+            else count--;
+            if(count<0){
+                result = c;
+                count = 0 ;
+            }
+        }
+        return result;
+    }
+
+    public int trailingZeroes(int n) {
+        int count = 0;
+        while(n>=5){
+            count+=n/5;
+            n/=5;
+        }
+        return count;
+    }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {2, 3, 4};
+        int[] nums = {2,2,1,1,1,2,2};
         String a = "1";
         String b = "111";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.convertToTitle(52));
+        System.out.println(solution.titleToNumber("AB"));
 
         Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
         TreeNode root = solution.createBinaryTreeByArray(arr,5);
