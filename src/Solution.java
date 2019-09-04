@@ -14,14 +14,14 @@ class Solution {
     }
 
 
-    public TreeNode createBinaryTreeByArray(Integer []array,int index){
-        TreeNode tn =null;
-        if(index<array.length){
+    public TreeNode createBinaryTreeByArray(Integer[] array, int index) {
+        TreeNode tn = null;
+        if (index < array.length) {
             Integer value = array[index];
             if (value == null) return null;
-            tn =new TreeNode(value);
-            tn.left = createBinaryTreeByArray(array,index*2+1);
-            tn.right = createBinaryTreeByArray(array,index*2+2);
+            tn = new TreeNode(value);
+            tn.left = createBinaryTreeByArray(array, index * 2 + 1);
+            tn.right = createBinaryTreeByArray(array, index * 2 + 2);
             return tn;
         }
         return tn;
@@ -41,6 +41,25 @@ class Solution {
         ListNode(int x) {
             val = x;
             next = null;
+        }
+    }
+
+    public ListNode creatList(int[] nums) {
+        if (nums.length == 0) return null;
+        ListNode head = new ListNode(nums[0]);
+        ListNode p = head;
+        for (int i = 1; i < nums.length; i++) {
+            ListNode node = new ListNode(nums[i]);
+            p.next = node;
+            p = node;
+        }
+        return head;
+    }
+
+    public void travelList(ListNode head) {
+        while (head != null) {
+            System.out.println(head.val);
+            head = head.next;
         }
     }
 
@@ -420,14 +439,14 @@ class Solution {
     }
 
     public boolean hasCycle(ListNode head) {
-        if(head==null||head.next==null) return false;
+        if (head == null || head.next == null) return false;
         ListNode slow = head;
         ListNode fast = head.next;
-        while (slow!=fast){
-            if(fast.next==null||fast.next.next==null) return false;
+        while (slow != fast) {
+            if (fast.next == null || fast.next.next == null) return false;
             else {
-                slow=slow.next;
-                fast=fast.next.next;
+                slow = slow.next;
+                fast = fast.next.next;
             }
         }
         return true;
@@ -435,23 +454,23 @@ class Solution {
 
     public ListNode detectCycle(ListNode head) {
         Set<ListNode> set = new HashSet<>();
-        if(head==null) return null;
-        while(head!=null){
-            if(!set.contains(head)) set.add(head);
+        if (head == null) return null;
+        while (head != null) {
+            if (!set.contains(head)) set.add(head);
             else return head;
-            head=head.next;
+            head = head.next;
         }
         return null;
     }
 
     public TreeNode subtreeWithAllDeepest(TreeNode root) {
-        if(root==null)
+        if (root == null)
             return null;
         else {
-            int ldep=maxDepth(root.left),rdep=maxDepth(root.right);
-            if(ldep==rdep)
+            int ldep = maxDepth(root.left), rdep = maxDepth(root.right);
+            if (ldep == rdep)
                 return root;
-            else if(ldep>rdep)
+            else if (ldep > rdep)
                 return subtreeWithAllDeepest(root.left);
             else
                 return subtreeWithAllDeepest(root.right);
@@ -460,101 +479,99 @@ class Solution {
 
 
     int maxDepth(TreeNode root) {
-        if(root==null)
+        if (root == null)
             return 0;
         else
-            return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
+            return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 
     public boolean canConstruct(String ransomNote, String magazine) {
-        int [] map = new int [26];
-        for(int i=0;i<magazine.length();i++){
-            map[(magazine.charAt(i)-'a')]++;
+        int[] map = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            map[(magazine.charAt(i) - 'a')]++;
         }
-        for(int i=0;i<ransomNote.length();i++){
-            map[(ransomNote.charAt(i)-'a')]--;
-            if(map[(ransomNote.charAt(i)-'a')]<0) return false;
+        for (int i = 0; i < ransomNote.length(); i++) {
+            map[(ransomNote.charAt(i) - 'a')]--;
+            if (map[(ransomNote.charAt(i) - 'a')] < 0) return false;
         }
         return true;
     }
 
     public List<Integer> lexicalOrder(int n) {
         List<Integer> result = new ArrayList<>();
-        for(int i=1;i<10;i++){
-            if(i<=n){
+        for (int i = 1; i < 10; i++) {
+            if (i <= n) {
                 result.add(i);
-                add(result,n,i);
-            }
-            else break;
+                add(result, n, i);
+            } else break;
         }
-        return  result;
+        return result;
     }
-    private void add(List<Integer> result, int n, int startNum){
+
+    private void add(List<Integer> result, int n, int startNum) {
         startNum *= 10;
-        for(int i=0;i<10;i++,startNum++){
-            if(startNum<=n){
+        for (int i = 0; i < 10; i++, startNum++) {
+            if (startNum <= n) {
                 result.add(startNum);
-                add(result,n,startNum);
-            }
-            else return;
+                add(result, n, startNum);
+            } else return;
         }
     }
 
     public int firstUniqChar(String s) {
-        int [] map = new int [26];
-        for(char c:s.toCharArray()) map[(c-'a')]++;
+        int[] map = new int[26];
+        for (char c : s.toCharArray()) map[(c - 'a')]++;
         int min = -1;
-        for(int i=0;i<26;i++){
-            if (map[i]==1){
-                int index = s.indexOf((char)('a'+i));
-                if(index<min||min==-1) min = index;
+        for (int i = 0; i < 26; i++) {
+            if (map[i] == 1) {
+                int index = s.indexOf((char) ('a' + i));
+                if (index < min || min == -1) min = index;
             }
         }
         return min;
     }
 
     public char findTheDifference(String s, String t) {
-        int [] map = new int [26];
-        for(char c:s.toCharArray()) map[(c-'a')]++;
-        for(char c:t.toCharArray()) map[(c-'a')]++;
-        for(int i=0;i<26;i++){
-            if(map[i]%2!=0) return (char)('a'+i);
+        int[] map = new int[26];
+        for (char c : s.toCharArray()) map[(c - 'a')]++;
+        for (char c : t.toCharArray()) map[(c - 'a')]++;
+        for (int i = 0; i < 26; i++) {
+            if (map[i] % 2 != 0) return (char) ('a' + i);
         }
         return 'a';
     }
 
 
     public String removeDuplicateLetters(String s) {
-        if(s.length()==0) return "";
+        if (s.length() == 0) return "";
         StringBuilder sb = new StringBuilder();
         sb.append(s.charAt(0));
         char last = s.charAt(0);
-        for(int i=1;i<s.length();i++){
+        for (int i = 1; i < s.length(); i++) {
             String s1 = sb.toString();
-            if(s1.indexOf(s.charAt(i))!=-1) continue;
-            while(last>s.charAt(i)){
-                String sub = s.substring(i+1,s.length());
-                if(sub.indexOf(last) != -1){
-                    sb.deleteCharAt(sb.length()-1);
-                    if(sb.length()==0){
+            if (s1.indexOf(s.charAt(i)) != -1) continue;
+            while (last > s.charAt(i)) {
+                String sub = s.substring(i + 1, s.length());
+                if (sub.indexOf(last) != -1) {
+                    sb.deleteCharAt(sb.length() - 1);
+                    if (sb.length() == 0) {
                         sb.append(s.charAt(i));
                         last = s.charAt(i);
                         break;
                     }
-                    last = sb.charAt(sb.length()-1);
-                }
-                else {
+                    last = sb.charAt(sb.length() - 1);
+                } else {
                     String str = sb.toString();
-                    if(str.indexOf(s.charAt(i))==-1) {
+                    if (str.indexOf(s.charAt(i)) == -1) {
                         sb.append(s.charAt(i));
                         last = s.charAt(i);
                     }
                     break;
                 }
             }
-            if(last<s.charAt(i)){
+            if (last < s.charAt(i)) {
                 String str = sb.toString();
-                if(str.indexOf(s.charAt(i))==-1) {
+                if (str.indexOf(s.charAt(i)) == -1) {
                     sb.append(s.charAt(i));
                     last = s.charAt(i);
                 }
@@ -565,7 +582,7 @@ class Solution {
 
     public int maxProduct(String[] words) {
         int max = 0;
-        for(int i=0;i<words.length;i++) {
+        for (int i = 0; i < words.length; i++) {
             Set<Character> set = new HashSet<>();
             for (char c : words[i].toCharArray()) set.add(c);
             for (int j = i + 1; j < words.length; j++) {
@@ -587,13 +604,13 @@ class Solution {
 
 
     public int bulbSwitch(int n) {
-       return (int)Math.sqrt(n);
+        return (int) Math.sqrt(n);
     }
 
     public String defangIPaddr(String address) {
         StringBuilder sb = new StringBuilder();
-        for(char c:address.toCharArray()){
-            if(c=='.') sb.append("[.]");
+        for (char c : address.toCharArray()) {
+            if (c == '.') sb.append("[.]");
             else sb.append(c);
         }
         return sb.toString();
@@ -602,19 +619,19 @@ class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode a = headA;
         ListNode b = headB;
-        while(a!=null&&b!=null){
+        while (a != null && b != null) {
             a = a.next;
             b = b.next;
         }
-        while(a!=null){
-            headA=headA.next;
+        while (a != null) {
+            headA = headA.next;
             a = a.next;
         }
-        while(b!=null){
-            headB=headB.next;
+        while (b != null) {
+            headB = headB.next;
             b = b.next;
         }
-        while(headA!=headB){
+        while (headA != headB) {
             headA = headA.next;
             headB = headB.next;
         }
@@ -624,28 +641,27 @@ class Solution {
     public int[] twoSum(int[] numbers, int target) {
         int[] res = new int[2];
         int left = 0;
-        int right = numbers.length-1;
-        while(res[1]==0){
-            if(numbers[left]+numbers[right]==target){
-                res[0]=left+1;
-                res[1]=right+1;
+        int right = numbers.length - 1;
+        while (res[1] == 0) {
+            if (numbers[left] + numbers[right] == target) {
+                res[0] = left + 1;
+                res[1] = right + 1;
                 break;
             }
-            if(numbers[left]+numbers[right]>target) right--;
-            if(numbers[left]+numbers[right]<target) left++;
+            if (numbers[left] + numbers[right] > target) right--;
+            if (numbers[left] + numbers[right] < target) left++;
         }
         return res;
     }
 
     public String convertToTitle(int n) {
         StringBuilder sb = new StringBuilder();
-        while(n>0){
-            if(n%26==0){
+        while (n > 0) {
+            if (n % 26 == 0) {
                 sb.append('Z');
-                n =n/26-1;
-            }
-            else {
-                sb.append((char) (n % 26 -1 + 'A'));
+                n = n / 26 - 1;
+            } else {
+                sb.append((char) (n % 26 - 1 + 'A'));
                 n /= 26;
             }
         }
@@ -654,9 +670,9 @@ class Solution {
 
     public int titleToNumber(String s) {
         int result = 0;
-        for(char c:s.toCharArray()){
-            int temp = c-'A'+1;
-            result = result*26+temp;
+        for (char c : s.toCharArray()) {
+            int temp = c - 'A' + 1;
+            result = result * 26 + temp;
         }
         return result;
     }
@@ -664,12 +680,12 @@ class Solution {
     public int majorityElement(int[] nums) {
         int result = nums[0];
         int count = 0;
-        for(int c:nums){
-            if(c==result) count++;
+        for (int c : nums) {
+            if (c == result) count++;
             else count--;
-            if(count<0){
+            if (count < 0) {
                 result = c;
-                count = 0 ;
+                count = 0;
             }
         }
         return result;
@@ -677,24 +693,66 @@ class Solution {
 
     public int trailingZeroes(int n) {
         int count = 0;
-        while(n>=5){
-            count+=n/5;
-            n/=5;
+        while (n >= 5) {
+            count += n / 5;
+            n /= 5;
         }
         return count;
+    }
+
+    public void rotate(int[] nums, int k) {
+        if (k == 0) return;
+        k = k % nums.length;
+        for (int i = 1; i <= k; i++) {
+            int temp = nums[nums.length - 1];
+            for (int j = nums.length - 1; j > 0; j--) {
+                nums[j] = nums[j - 1];
+            }
+            nums[0] = temp;
+        }
+    }
+
+    public int rob(int[] nums) {
+        if (nums.length == 0) return 0;
+        int[] count = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) count[i] = nums[i];
+            else if (i == 1) count[i] = Math.max(nums[0], nums[1]);
+            else {
+                count[i] = Math.max(count[i - 1], count[i - 2] + nums[i]);
+            }
+        }
+        return count[nums.length - 1];
+    }
+
+
+    public ListNode removeElements(ListNode head, int val) {
+        while (head != null && head.val == val) {
+            head = head.next;
+        }
+        if (head == null) return null;
+        ListNode p = head;
+        while (p != null && p.next != null) {
+            if (p.next.val == val) p.next = p.next.next;
+            else p = p.next;
+        }
+        return head;
     }
 
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {2,2,1,1,1,2,2};
+        int[] nums = {1, 2,2,1};
         String a = "1";
         String b = "111";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.titleToNumber("AB"));
-
-        Integer[] arr = new Integer[]{0,null,1,null,2,null,3};
-        TreeNode root = solution.createBinaryTreeByArray(arr,5);
+//        System.out.println(solution.rob(nums));
+//        solution.rotate(nums,2);
+        Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
+        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
+        ListNode head = solution.creatList(nums);
+        solution.travelList(solution.removeElements(head, 2));
+//        System.out.println("111");
 //        solution.TreeTravel(root);
 //        int[] result = solution.twoSum(nums,6);
 //        System.out.println(result[0]);
