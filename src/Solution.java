@@ -739,19 +739,84 @@ class Solution {
         return head;
     }
 
+    public int[] diStringMatch(String S) {
+        int min = 0;
+        int max = S.length();
+        int[] result = new int[S.length() + 1];
+        for (int i = 0; i < S.length(); i++) {
+            if (S.charAt(i) == 'I') result[i] = min++;
+            if (S.charAt(i) == 'D') result[i] = max--;
+        }
+        result[S.length()] = max;
+        return result;
+    }
+
+    public int countPrimes(int n) {
+        if (n < 2) return 0;
+        int count = 0;
+        int[] map = new int[n];
+        for (int i = 2; i < n; i++) {
+            if (map[i] == 0) {
+                count++;
+                for (int j = i + i; j < n; j += i) map[j] = 1;
+            }
+        }
+        return count;
+    }
+
+
+    public boolean isIsomorphic(String s, String t) {
+        Map<Character, Character> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (!map.containsKey(s.charAt(i))) {
+                if (map.containsValue(t.charAt(i))) return false;
+                map.put(s.charAt(i), t.charAt(i));
+            } else {
+                if (map.get(s.charAt(i)) != t.charAt(i)) return false;
+            }
+        }
+        return true;
+    }
+
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return null;
+        List<ListNode> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head);
+            head = head.next;
+        }
+        ListNode result = list.get(list.size() - 1);
+        ListNode p = result;
+        for (int i = list.size() - 2; i >= 0; i--) {
+            p.next = list.get(i);
+            p = p.next;
+        }
+        p.next = null;
+        return result;
+    }
+
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for(int i:nums){
+            if(set.contains(i)) return true;
+            set.add(i);
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1, 2,2,1};
+        int[] nums = {1, 2, 2, 1};
         String a = "1";
-        String b = "111";
+        String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-//        System.out.println(solution.rob(nums));
+        System.out.println(solution.countPrimes(10));
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
-        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
+//        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
         ListNode head = solution.creatList(nums);
-        solution.travelList(solution.removeElements(head, 2));
+//        solution.travelList(solution.removeElements(head, 2));
+//        int[] array = solution.diStringMatch(b);
 //        System.out.println("111");
 //        solution.TreeTravel(root);
 //        int[] result = solution.twoSum(nums,6);
