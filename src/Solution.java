@@ -804,6 +804,57 @@ class Solution {
         return false;
     }
 
+
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; ++i) {
+            if (set.contains(nums[i])) return true;
+            set.add(nums[i]);
+            if (set.size() > k) {
+                set.remove(nums[i - k]);
+            }
+        }
+        return false;
+    }
+
+    public boolean isPowerOfTwo(int n) {
+        double sqrt = Math.log(n)/Math.log(2);
+        int res = (int) sqrt;
+        if(Math.pow(2,res)==n) return true;
+        return false;
+    }
+
+
+    class MyQueue {
+        Deque<Integer> deque;
+        /** Initialize your data structure here. */
+        public MyQueue() {
+            deque = new LinkedList<>();
+        }
+
+        /** Push element x to the back of queue. */
+        public void push(int x) {
+            deque.add(x);
+        }
+
+        /** Removes the element from in front of queue and returns that element. */
+        public int pop() {
+             return deque.removeFirst();
+        }
+
+        /** Get the front element. */
+        public int peek() {
+            return deque.getFirst();
+        }
+
+        /** Returns whether the queue is empty. */
+        public boolean empty() {
+            return deque.isEmpty();
+        }
+    }
+
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = {1, 2, 2, 1};
@@ -815,6 +866,7 @@ class Solution {
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
 //        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
         ListNode head = solution.creatList(nums);
+
 //        solution.travelList(solution.removeElements(head, 2));
 //        int[] array = solution.diStringMatch(b);
 //        System.out.println("111");
