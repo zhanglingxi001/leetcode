@@ -854,19 +854,53 @@ class Solution {
     }
 
 
+    public boolean isPalindrome(ListNode head) {
+        if(head==null) return true;
+        if(head.next==null) return true;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null&&fast.next!=null){
+                slow = slow.next;
+                fast = fast.next.next;
+        }
+        ListNode resever = head;
+        ListNode temp;
+        head=head.next;
+        while(head!=slow){
+            temp=head.next;
+            head.next=resever;
+            resever = head;
+            head=temp;
+        }
+        if(fast!=null) slow=slow.next;
+        while(slow!=null){
+            if(resever.val!=slow.val) return false;
+            resever=resever.next;
+            slow=slow.next;
+        }
+        return true;
+    }
+
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==p||root==q) return root;
+        if((root.val<p.val&&root.val>q.val)||(root.val>p.val&&root.val<q.val)) return root;
+        if(root.val<p.val&&root.val<q.val) return lowestCommonAncestor(root.right,p,q);
+        else return lowestCommonAncestor(root.left,p,q);
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1, 2, 2, 1};
+        int[] nums = {1, 2,2,2,2,1};
         String a = "1";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.countPrimes(10));
+//        System.out.println(solution.countPrimes(10));
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
 //        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
         ListNode head = solution.creatList(nums);
-
+        System.out.println(solution.isPalindrome(head));
 //        solution.travelList(solution.removeElements(head, 2));
 //        int[] array = solution.diStringMatch(b);
 //        System.out.println("111");
