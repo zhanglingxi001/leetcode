@@ -797,8 +797,8 @@ class Solution {
 
     public boolean containsDuplicate(int[] nums) {
         Set<Integer> set = new HashSet<>();
-        for(int i:nums){
-            if(set.contains(i)) return true;
+        for (int i : nums) {
+            if (set.contains(i)) return true;
             set.add(i);
         }
         return false;
@@ -818,36 +818,47 @@ class Solution {
     }
 
     public boolean isPowerOfTwo(int n) {
-        double sqrt = Math.log(n)/Math.log(2);
+        double sqrt = Math.log(n) / Math.log(2);
         int res = (int) sqrt;
-        if(Math.pow(2,res)==n) return true;
+        if (Math.pow(2, res) == n) return true;
         return false;
     }
 
 
     class MyQueue {
         Deque<Integer> deque;
-        /** Initialize your data structure here. */
+
+        /**
+         * Initialize your data structure here.
+         */
         public MyQueue() {
             deque = new LinkedList<>();
         }
 
-        /** Push element x to the back of queue. */
+        /**
+         * Push element x to the back of queue.
+         */
         public void push(int x) {
             deque.add(x);
         }
 
-        /** Removes the element from in front of queue and returns that element. */
+        /**
+         * Removes the element from in front of queue and returns that element.
+         */
         public int pop() {
-             return deque.removeFirst();
+            return deque.removeFirst();
         }
 
-        /** Get the front element. */
+        /**
+         * Get the front element.
+         */
         public int peek() {
             return deque.getFirst();
         }
 
-        /** Returns whether the queue is empty. */
+        /**
+         * Returns whether the queue is empty.
+         */
         public boolean empty() {
             return deque.isEmpty();
         }
@@ -855,43 +866,75 @@ class Solution {
 
 
     public boolean isPalindrome(ListNode head) {
-        if(head==null) return true;
-        if(head.next==null) return true;
+        if (head == null) return true;
+        if (head.next == null) return true;
         ListNode slow = head;
         ListNode fast = head;
-        while(fast!=null&&fast.next!=null){
-                slow = slow.next;
-                fast = fast.next.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
         ListNode resever = head;
         ListNode temp;
-        head=head.next;
-        while(head!=slow){
-            temp=head.next;
-            head.next=resever;
+        head = head.next;
+        while (head != slow) {
+            temp = head.next;
+            head.next = resever;
             resever = head;
-            head=temp;
+            head = temp;
         }
-        if(fast!=null) slow=slow.next;
-        while(slow!=null){
-            if(resever.val!=slow.val) return false;
-            resever=resever.next;
-            slow=slow.next;
+        if (fast != null) slow = slow.next;
+        while (slow != null) {
+            if (resever.val != slow.val) return false;
+            resever = resever.next;
+            slow = slow.next;
         }
         return true;
     }
 
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root==p||root==q) return root;
-        if((root.val<p.val&&root.val>q.val)||(root.val>p.val&&root.val<q.val)) return root;
-        if(root.val<p.val&&root.val<q.val) return lowestCommonAncestor(root.right,p,q);
-        else return lowestCommonAncestor(root.left,p,q);
+        if (root == p || root == q) return root;
+        if ((root.val < p.val && root.val > q.val) || (root.val > p.val && root.val < q.val)) return root;
+        if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+        else return lowestCommonAncestor(root.left, p, q);
+    }
+
+    public boolean isAnagram(String s, String t) {
+        int[] map = new int[26];
+        for (char c : s.toCharArray()) map[(int) (c - 'a')]++;
+        for (char c : t.toCharArray()) map[(int) (c - 'a')]--;
+        for (int i : map) if (i != 0) return false;
+        return true;
+    }
+
+    public int findPeakElement(int[] nums) {
+        return search(nums, 0, nums.length - 1);
+    }
+
+    public int search(int[] nums, int l, int r) {
+        if(l==r) return l;
+        int mid = (l+r)/2;
+        if(nums[mid]>nums[mid+1]) return search(nums,l,mid);
+        return search(nums,mid+1,r);
+    }
+
+    public int fib(int N) {
+        if(N==0) return 0;
+        if(N==1) return 1;
+        int n_1 = 0;
+        int n_2 = 1;
+        for(int i = 2;i<=N;i++){
+            int temp = n_1;
+            n_1 = n_2;
+            n_2 = n_2 + temp;
+        }
+        return n_2;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1, 2,2,2,2,1};
+        int[] nums = {1, 2, 2, 2, 2, 1};
         String a = "1";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
