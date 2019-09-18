@@ -932,13 +932,66 @@ class Solution {
         return n_2;
     }
 
+    public String removeOuterParentheses(String S) {
+        StringBuilder sb = new StringBuilder();
+        int count=0;
+        for(char c:S.toCharArray()){
+            if(count==0) count++;
+            else{
+                if(count==1&&c==')') {
+                    count--;
+                    continue;
+                }
+                if(c=='(') count++;
+                else count--;
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    public int numTilePossibilities(String tiles) {
+        int[] map = new int[26];
+        for(char c:tiles.toCharArray()) map[c-'A']++;
+        return dfs(map);
+    }
+    public  int dfs(int[] map){
+        int res = 0;
+        for(int i=0;i<26;i++){
+            if(map[i]==0) continue;
+            res++;
+            map[i]--;
+            res+=dfs(map);
+            map[i]++;
+        }
+        return res;
+    }
+
+    public int countPrimeSetBits(int L, int R) {
+        int res = 0;
+        for(int i=L;i<=R;i++){
+            String s = Integer.toBinaryString(i);
+            int count = 0;
+            for(char c:s.toCharArray())
+                if(c=='1') count++;
+            if(isPrime(count)) res++;
+        }
+        return res;
+    }
+    public boolean isPrime(int n){
+        int[] primes = {2,3,5,7,11,13,17,19};
+        for(int prime:primes)
+            if(n==prime) return true;
+        return false;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = {1, 2, 2, 2, 2, 1};
         String a = "1";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-//        System.out.println(solution.countPrimes(10));
+        System.out.println(solution.countPrimeSetBits(977581,983119));
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
 //        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
