@@ -985,18 +985,93 @@ class Solution {
         return false;
     }
 
+
+//    public int subarrayBitwiseORs(int[] A) {
+//        int[] map = new int[A.length];
+//        int or = 0;
+//        Set<Integer> result = new HashSet<>();
+//        result.addAll(DFS(map,A,or));
+//        return result.size();
+//    }
+//    public Set<Integer> DFS (int[] map,int[] A,int or){
+//        Set<Integer> res = new HashSet<>();
+//        for(int i = 0;i<map.length;i++){
+//            if(map[i]==-1) continue;
+//            int temp = or | A[i];
+//            res.add(temp);
+//            map[i]--;
+//            res.addAll(DFS(map,A,temp));
+//            map[i]++;
+//        }
+//        return res;
+//    }
+
+    public int subarrayBitwiseORs(int[] A) {
+        Set<Integer> res = new HashSet<>();
+        Set<Integer> last = new HashSet<>();
+        last.add(0);
+        for(int i:A){
+            Set<Integer> temp = new HashSet<>();
+            for(int j:last) temp.add(j|i);
+            temp.add(i);
+            last = temp;
+            res.addAll(last);
+        }
+        return res.size();
+    }
+
+    public int findLengthOfLCIS(int[] nums) {
+        if(nums.length==0) return 0;
+        int res = 1;
+        int temp = 1;
+        for(int i = 1;i<nums.length;i++){
+            if(nums[i]>nums[i-1]){
+                temp++;
+                res = res>temp?res:temp;
+            }
+            else temp=1;
+        }
+        return res;
+    }
+
+    public int findNumberOfLIS(int[] nums) {
+        if(nums.length==0) return 0;
+        int[] a = new int[nums.length];
+        int[] b = new int[nums.length];
+        Arrays.fill(b,1);
+        int count=1;
+        int max = 0;
+        for(int i = 1;i<nums.length;i++){
+            for(int j= 0;j<i;j++){
+                if(nums[i]>nums[j]){
+                    if(a[j]>=a[i]){
+                        a[i]=a[j]+1;
+                        b[i]=b[j];
+                    }
+                    else if(a[j]+1==a[i]) b[i]+=b[j];
+                }
+            }
+            if(a[i]>max){
+                count = b[i];
+                max = a[i];
+            }
+            else if(a[i]==max) count+=b[i];
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1, 2, 2, 2, 2, 1};
+        int[] nums = {2,2,2,2,2};
         String a = "1";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.countPrimeSetBits(977581,983119));
+        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
 //        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
         ListNode head = solution.creatList(nums);
-        System.out.println(solution.isPalindrome(head));
+//        System.out.println(solution.isPalindrome(head));
 //        solution.travelList(solution.removeElements(head, 2));
 //        int[] array = solution.diStringMatch(b);
 //        System.out.println("111");
