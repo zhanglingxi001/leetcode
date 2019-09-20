@@ -913,18 +913,18 @@ class Solution {
     }
 
     public int search(int[] nums, int l, int r) {
-        if(l==r) return l;
-        int mid = (l+r)/2;
-        if(nums[mid]>nums[mid+1]) return search(nums,l,mid);
-        return search(nums,mid+1,r);
+        if (l == r) return l;
+        int mid = (l + r) / 2;
+        if (nums[mid] > nums[mid + 1]) return search(nums, l, mid);
+        return search(nums, mid + 1, r);
     }
 
     public int fib(int N) {
-        if(N==0) return 0;
-        if(N==1) return 1;
+        if (N == 0) return 0;
+        if (N == 1) return 1;
         int n_1 = 0;
         int n_2 = 1;
-        for(int i = 2;i<=N;i++){
+        for (int i = 2; i <= N; i++) {
             int temp = n_1;
             n_1 = n_2;
             n_2 = n_2 + temp;
@@ -934,15 +934,15 @@ class Solution {
 
     public String removeOuterParentheses(String S) {
         StringBuilder sb = new StringBuilder();
-        int count=0;
-        for(char c:S.toCharArray()){
-            if(count==0) count++;
-            else{
-                if(count==1&&c==')') {
+        int count = 0;
+        for (char c : S.toCharArray()) {
+            if (count == 0) count++;
+            else {
+                if (count == 1 && c == ')') {
                     count--;
                     continue;
                 }
-                if(c=='(') count++;
+                if (c == '(') count++;
                 else count--;
                 sb.append(c);
             }
@@ -952,16 +952,17 @@ class Solution {
 
     public int numTilePossibilities(String tiles) {
         int[] map = new int[26];
-        for(char c:tiles.toCharArray()) map[c-'A']++;
+        for (char c : tiles.toCharArray()) map[c - 'A']++;
         return dfs(map);
     }
-    public  int dfs(int[] map){
+
+    public int dfs(int[] map) {
         int res = 0;
-        for(int i=0;i<26;i++){
-            if(map[i]==0) continue;
+        for (int i = 0; i < 26; i++) {
+            if (map[i] == 0) continue;
             res++;
             map[i]--;
-            res+=dfs(map);
+            res += dfs(map);
             map[i]++;
         }
         return res;
@@ -969,19 +970,20 @@ class Solution {
 
     public int countPrimeSetBits(int L, int R) {
         int res = 0;
-        for(int i=L;i<=R;i++){
+        for (int i = L; i <= R; i++) {
             String s = Integer.toBinaryString(i);
             int count = 0;
-            for(char c:s.toCharArray())
-                if(c=='1') count++;
-            if(isPrime(count)) res++;
+            for (char c : s.toCharArray())
+                if (c == '1') count++;
+            if (isPrime(count)) res++;
         }
         return res;
     }
-    public boolean isPrime(int n){
-        int[] primes = {2,3,5,7,11,13,17,19};
-        for(int prime:primes)
-            if(n==prime) return true;
+
+    public boolean isPrime(int n) {
+        int[] primes = {2, 3, 5, 7, 11, 13, 17, 19};
+        for (int prime : primes)
+            if (n == prime) return true;
         return false;
     }
 
@@ -991,7 +993,7 @@ class Solution {
         String a = "1";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.countPrimeSetBits(977581,983119));
+        System.out.println(solution.countPrimeSetBits(977581, 983119));
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
 //        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
