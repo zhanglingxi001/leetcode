@@ -1,5 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.Collections;
+
 
 class Solution {
 
@@ -987,7 +989,6 @@ class Solution {
         return false;
     }
 
-
 //    public int subarrayBitwiseORs(int[] A) {
 //        int[] map = new int[A.length];
 //        int or = 0;
@@ -1012,9 +1013,9 @@ class Solution {
         Set<Integer> res = new HashSet<>();
         Set<Integer> last = new HashSet<>();
         last.add(0);
-        for(int i:A){
+        for (int i : A) {
             Set<Integer> temp = new HashSet<>();
-            for(int j:last) temp.add(j|i);
+            for (int j : last) temp.add(j | i);
             temp.add(i);
             last = temp;
             res.addAll(last);
@@ -1023,53 +1024,147 @@ class Solution {
     }
 
     public int findLengthOfLCIS(int[] nums) {
-        if(nums.length==0) return 0;
+        if (nums.length == 0) return 0;
         int res = 1;
         int temp = 1;
-        for(int i = 1;i<nums.length;i++){
-            if(nums[i]>nums[i-1]){
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
                 temp++;
-                res = res>temp?res:temp;
-            }
-            else temp=1;
+                res = res > temp ? res : temp;
+            } else temp = 1;
         }
         return res;
     }
 
     public int findNumberOfLIS(int[] nums) {
-        if(nums.length==0) return 0;
+        if (nums.length == 0) return 0;
         int[] a = new int[nums.length];
         int[] b = new int[nums.length];
-        Arrays.fill(b,1);
-        int count=1;
+        Arrays.fill(b, 1);
+        int count = 1;
         int max = 0;
-        for(int i = 1;i<nums.length;i++){
-            for(int j= 0;j<i;j++){
-                if(nums[i]>nums[j]){
-                    if(a[j]>=a[i]){
-                        a[i]=a[j]+1;
-                        b[i]=b[j];
-                    }
-                    else if(a[j]+1==a[i]) b[i]+=b[j];
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    if (a[j] >= a[i]) {
+                        a[i] = a[j] + 1;
+                        b[i] = b[j];
+                    } else if (a[j] + 1 == a[i]) b[i] += b[j];
                 }
             }
-            if(a[i]>max){
+            if (a[i] > max) {
                 count = b[i];
                 max = a[i];
-            }
-            else if(a[i]==max) count+=b[i];
+            } else if (a[i] == max) count += b[i];
         }
         return count;
     }
 
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> nums = new LinkedList<>();
+        for (String s : tokens) {
+            if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
+                if (s.equals("+")) {
+                    int op1 = nums.pollLast();
+                    int op2 = nums.pollLast();
+                    nums.add(op1 + op2);
+                }
+                if (s.equals("-")) {
+                    int op1 = nums.pollLast();
+                    int op2 = nums.pollLast();
+                    nums.add(op2 - op1);
+                }
+                if (s.equals("*")) {
+                    int op1 = nums.pollLast();
+                    int op2 = nums.pollLast();
+                    nums.add(op1 * op2);
+                }
+                if (s.equals("/")) {
+                    int op1 = nums.pollLast();
+                    int op2 = nums.pollLast();
+                    nums.add(op2 / op1);
+                }
+            } else {
+                nums.add(Integer.parseInt(s));
+            }
+        }
+        return nums.getFirst();
+    }
+
+    public int maxUncrossedLines(int[] A, int[] B) {
+        int[][] lines = new int[A.length + 1][B.length + 1];
+        for (int i = 0; i < A.length; i++)
+            for (int j = 0; j < B.length; j++) {
+                if (A[i] == B[j]) lines[i + 1][j + 1] = lines[i][j] + 1;
+                else lines[i + 1][j + 1] = Math.max(lines[i][j + 1], lines[i + 1][j]);
+            }
+        return lines[A.length][B.length];
+    }
+
+    public void duplicateZeros(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == 0) {
+                for (int j = arr.length - 1; j > i; j--)
+                    arr[j] = arr[j - 1];
+                i++;
+            }
+        }
+    }
+
+
+    public int largestValsFromLabels(int[] values, int[] labels, int num_wanted, int use_limit) {
+        Map<Integer,Integer> map = new HashMap();
+        for(int i=0;i<values.length;i++) map.put(values[i],labels[i]);
+        Arrays.sort(values);
+        int sum = 0;
+        int start = values.length-1;
+        Map<Integer,Integer> lablesCount = new HashMap();
+        for(int count=1;count<=num_wanted;count++){
+            for(int i=start;i>=0;i--){
+                if(!lablesCount.containsKey(map.get(values[i]))){
+                    lablesCount.put(map.get(values[i]),1);
+                    sum+=values[i];
+                    start=i-1;
+                    break;
+                }
+                else if(lablesCount.get(map.get(values[i]))<use_limit){
+                    lablesCount.replace(map.get(values[i]),lablesCount.get(map.get(values[i]))+1);
+                    sum+=values[i];
+                    start=i-1;
+                    break;
+                }
+            }
+        }
+        return sum;
+    }
+
+
+    // 降序
+    class myComparator implements Comparator<Integer>{
+        @Override
+        public int compare(Integer o1, Integer o2){
+            return o2-o1;
+        }
+    }
+    public void mysort(){
+        Integer[] a = {1,2,3,4,5};
+        myComparator cmp = new myComparator();
+        Arrays.sort(a,cmp);
+    }
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {2,2,2,2,2};
+        int[] nums = {2, 2, 2, 2, 2};
+        int[] values = {3,2,3,2,1};
+
+        System.out.println();
+        int[] labels = {1,0,2,2,1};
         String a = "1";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.countPrimeSetBits(977581, 983119));
-        System.out.println(solution.findNumberOfLIS(nums));
+        System.out.println(solution.largestValsFromLabels(values, labels,2,1));
+//        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
 //        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
