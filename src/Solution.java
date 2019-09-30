@@ -1113,24 +1113,23 @@ class Solution {
 
 
     public int largestValsFromLabels(int[] values, int[] labels, int num_wanted, int use_limit) {
-        Map<Integer,Integer> map = new HashMap();
-        for(int i=0;i<values.length;i++) map.put(values[i],labels[i]);
+        Map<Integer, Integer> map = new HashMap();
+        for (int i = 0; i < values.length; i++) map.put(values[i], labels[i]);
         Arrays.sort(values);
         int sum = 0;
-        int start = values.length-1;
-        Map<Integer,Integer> lablesCount = new HashMap();
-        for(int count=1;count<=num_wanted;count++){
-            for(int i=start;i>=0;i--){
-                if(!lablesCount.containsKey(map.get(values[i]))){
-                    lablesCount.put(map.get(values[i]),1);
-                    sum+=values[i];
-                    start=i-1;
+        int start = values.length - 1;
+        Map<Integer, Integer> lablesCount = new HashMap();
+        for (int count = 1; count <= num_wanted; count++) {
+            for (int i = start; i >= 0; i--) {
+                if (!lablesCount.containsKey(map.get(values[i]))) {
+                    lablesCount.put(map.get(values[i]), 1);
+                    sum += values[i];
+                    start = i - 1;
                     break;
-                }
-                else if(lablesCount.get(map.get(values[i]))<use_limit){
-                    lablesCount.replace(map.get(values[i]),lablesCount.get(map.get(values[i]))+1);
-                    sum+=values[i];
-                    start=i-1;
+                } else if (lablesCount.get(map.get(values[i])) < use_limit) {
+                    lablesCount.replace(map.get(values[i]), lablesCount.get(map.get(values[i])) + 1);
+                    sum += values[i];
+                    start = i - 1;
                     break;
                 }
             }
@@ -1140,30 +1139,229 @@ class Solution {
 
 
     // 降序
-    class myComparator implements Comparator<Integer>{
+    class myComparator implements Comparator<Integer> {
         @Override
-        public int compare(Integer o1, Integer o2){
-            return o2-o1;
+        public int compare(Integer o1, Integer o2) {
+            return o2 - o1;
         }
     }
-    public void mysort(){
-        Integer[] a = {1,2,3,4,5};
+
+    public void mysort() {
+        Integer[] a = {1, 2, 3, 4, 5};
         myComparator cmp = new myComparator();
-        Arrays.sort(a,cmp);
+        Arrays.sort(a, cmp);
+    }
+
+
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = left; i <= right; i++)
+            if (isSelfDivid(i)) res.add(i);
+        return res;
+    }
+
+    public boolean isSelfDivid(int i) {
+        if (i == 0) return false;
+        int temp = i;
+        while (temp != 0) {
+            int div = temp % 10;
+            if (div == 0 || i % div != 0) return false;
+            temp /= 10;
+        }
+        return true;
+    }
+
+    public int integerBreak(int n) {
+        if (n <= 3) return n - 1;
+        int b = n % 3;
+        if (b == 0) return (int) Math.pow(3, n / 3);
+        if (b == 1) return (int) Math.pow(3, n / 3 - 1) * 4;
+        return (int) Math.pow(3, n / 3) * 2;
+    }
+
+    public int maxChunksToSorted(int[] arr) {
+        int max = arr[0];
+        int res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > max) max = arr[i];
+            if (max == i) res++;
+        }
+        return res;
+    }
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder.length == 0) return null;
+        TreeNode root = new TreeNode(preorder[0]);
+        int index = 0;
+        for (; index < inorder.length; index++)
+            if (inorder[index] == preorder[0])
+                break;
+        root.left = buildTree(Arrays.copyOfRange(preorder, 1, index + 1), Arrays.copyOfRange(inorder, 0, index));
+        root.right = buildTree(Arrays.copyOfRange(preorder, index + 1, preorder.length), Arrays.copyOfRange(inorder, index + 1, inorder.length));
+        return root;
+    }
+
+    public boolean checkValidString(String s) {
+        List<Character> stack = new ArrayList<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '*') stack.add(c);
+            else {
+                if (stack.size() == 0) return false;
+                else {
+                    boolean hasleft = false;
+                    for (int i = stack.size() - 1; i >= 0; i--) {
+                        if (stack.get(i) == '(') {
+                            stack.remove(i);
+                            hasleft = true;
+                            break;
+                        }
+                    }
+                    if (!hasleft) stack.remove(stack.size() - 1);
+                }
+            }
+        }
+        while (stack.size() != 0) {
+            while (stack.size() != 0 && stack.get(0) == '*') stack.remove(0);
+            if (stack.size() == 0) break;
+            boolean has = false;
+            for (int i = 1; i < stack.size(); i++) {
+                if (stack.get(i) == '*') {
+                    has = true;
+                    stack.remove(i);
+                    stack.remove(0);
+                    break;
+                }
+            }
+            if (!has) return false;
+        }
+        return true;
+    }
+
+    public int search(int[] nums, int target) {
+        return search0(nums, 0, nums.length - 1, target);
+    }
+
+    public int search0(int[] nums, int left, int right, int target) {
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[mid] < target) left = mid + 1;
+            else right = mid - 1;
+        }
+        return -1;
+    }
+
+    public int countSubstrings(String s) {
+        int res = 0;
+        for (int i = 0; i < s.length(); i++)
+            for (int j = i; j < s.length(); j++)
+                res += isCilcle(s, i, j);
+        return res;
+    }
+
+    public int isCilcle(String s, int i, int j) {
+        while (i <= j) {
+            if (s.charAt(i) != s.charAt(j)) return 0;
+            i++;
+            j--;
+        }
+        return 1;
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int c = 0;
+        ListNode res = l1;
+        ListNode pre = l1;
+        while (l1 != null && l2 != null) {
+            int sum = l1.val + l2.val + c;
+            l1.val = sum % 10;
+            c = sum / 10;
+            pre = l1;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        while (l1 != null) {
+            int sum = l1.val + c;
+            l1.val = sum % 10;
+            c = sum / 10;
+            pre = l1;
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            int sum = l2.val + c;
+            l2.val = sum % 10;
+            c = sum / 10;
+            pre.next = l2;
+            pre = pre.next;
+            l2 = l2.next;
+        }
+        if (c != 0) {
+            ListNode p = new ListNode(c);
+            p.next = null;
+            pre.next = p;
+        }
+        return res;
+    }
+
+    public int findComplement(int num) {
+        int res = 0;
+        int pow = 1;
+        while (num != 0) {
+            res = res + ((num % 2) ^ 1) * pow;
+            num /= 2;
+            pow *= 2;
+        }
+        return res;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            Set<Character> set = new HashSet<>();
+            set.add(s.charAt(i));
+            for (int j = i + 1; j < s.length(); j++) {
+                if (!set.contains(s.charAt(j)))
+                    set.add(s.charAt(j));
+                else break;
+            }
+            max = Math.max(max, set.size());
+        }
+        return max;
+    }
+
+
+    public String longestPalindrome(String s) {
+        if(s.length()==0) return "";
+        int max = 0;
+        int[] res = new int[2];
+        int[][] map = new int[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            for(int j=0;j<s.length();j++) {
+                if (j + i > s.length() - 1) break;
+                if (i == 0) map[j][j] = 1;
+                else if (i == 1 && s.charAt(j) == s.charAt(j + 1)) map[j][j + 1] = 1;
+                else if (s.charAt(j) == s.charAt(j + i)) map[j][j + i] = map[j + 1][j + i - 1];
+                if (map[j][j + i] == 1 && i > max) {
+                    max = i;
+                    res[0] = j;
+                    res[1] = j + i;
+                }
+            }
+        }
+        return s.substring(res[0],res[1]+1);
     }
 
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {2, 2, 2, 2, 2};
-        int[] values = {3,2,3,2,1};
-
-        System.out.println();
-        int[] labels = {1,0,2,2,1};
-        String a = "1";
+        int[] nums = {1, 0, 2, 3, 4};
+        int[] values = {3, 9, 20, 15, 7};
+        int[] labels = {9, 3, 15, 20, 7};
+        String a = "babad";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.largestValsFromLabels(values, labels,2,1));
+        System.out.println(solution.longestPalindrome(a));
+//        solution.TreeTravel(solution.buildTree(values,labels));
 //        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
