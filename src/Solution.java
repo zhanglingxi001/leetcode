@@ -913,18 +913,18 @@ class Solution {
     }
 
     public int search(int[] nums, int l, int r) {
-        if(l==r) return l;
-        int mid = (l+r)/2;
-        if(nums[mid]>nums[mid+1]) return search(nums,l,mid);
-        return search(nums,mid+1,r);
+        if (l == r) return l;
+        int mid = (l + r) / 2;
+        if (nums[mid] > nums[mid + 1]) return search(nums, l, mid);
+        return search(nums, mid + 1, r);
     }
 
     public int fib(int N) {
-        if(N==0) return 0;
-        if(N==1) return 1;
+        if (N == 0) return 0;
+        if (N == 1) return 1;
         int n_1 = 0;
         int n_2 = 1;
-        for(int i = 2;i<=N;i++){
+        for (int i = 2; i <= N; i++) {
             int temp = n_1;
             n_1 = n_2;
             n_2 = n_2 + temp;
@@ -934,15 +934,15 @@ class Solution {
 
     public String removeOuterParentheses(String S) {
         StringBuilder sb = new StringBuilder();
-        int count=0;
-        for(char c:S.toCharArray()){
-            if(count==0) count++;
-            else{
-                if(count==1&&c==')') {
+        int count = 0;
+        for (char c : S.toCharArray()) {
+            if (count == 0) count++;
+            else {
+                if (count == 1 && c == ')') {
                     count--;
                     continue;
                 }
-                if(c=='(') count++;
+                if (c == '(') count++;
                 else count--;
                 sb.append(c);
             }
@@ -952,16 +952,17 @@ class Solution {
 
     public int numTilePossibilities(String tiles) {
         int[] map = new int[26];
-        for(char c:tiles.toCharArray()) map[c-'A']++;
+        for (char c : tiles.toCharArray()) map[c - 'A']++;
         return dfs(map);
     }
-    public  int dfs(int[] map){
+
+    public int dfs(int[] map) {
         int res = 0;
-        for(int i=0;i<26;i++){
-            if(map[i]==0) continue;
+        for (int i = 0; i < 26; i++) {
+            if (map[i] == 0) continue;
             res++;
             map[i]--;
-            res+=dfs(map);
+            res += dfs(map);
             map[i]++;
         }
         return res;
@@ -969,19 +970,20 @@ class Solution {
 
     public int countPrimeSetBits(int L, int R) {
         int res = 0;
-        for(int i=L;i<=R;i++){
+        for (int i = L; i <= R; i++) {
             String s = Integer.toBinaryString(i);
             int count = 0;
-            for(char c:s.toCharArray())
-                if(c=='1') count++;
-            if(isPrime(count)) res++;
+            for (char c : s.toCharArray())
+                if (c == '1') count++;
+            if (isPrime(count)) res++;
         }
         return res;
     }
-    public boolean isPrime(int n){
-        int[] primes = {2,3,5,7,11,13,17,19};
-        for(int prime:primes)
-            if(n==prime) return true;
+
+    public boolean isPrime(int n) {
+        int[] primes = {2, 3, 5, 7, 11, 13, 17, 19};
+        for (int prime : primes)
+            if (n == prime) return true;
         return false;
     }
 
@@ -1010,9 +1012,9 @@ class Solution {
         Set<Integer> res = new HashSet<>();
         Set<Integer> last = new HashSet<>();
         last.add(0);
-        for(int i:A){
+        for (int i : A) {
             Set<Integer> temp = new HashSet<>();
-            for(int j:last) temp.add(j|i);
+            for (int j : last) temp.add(j | i);
             temp.add(i);
             last = temp;
             res.addAll(last);
@@ -1021,56 +1023,78 @@ class Solution {
     }
 
     public int findLengthOfLCIS(int[] nums) {
-        if(nums.length==0) return 0;
+        if (nums.length == 0) return 0;
         int res = 1;
         int temp = 1;
-        for(int i = 1;i<nums.length;i++){
-            if(nums[i]>nums[i-1]){
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
                 temp++;
-                res = res>temp?res:temp;
-            }
-            else temp=1;
+                res = res > temp ? res : temp;
+            } else temp = 1;
         }
         return res;
     }
 
     public int findNumberOfLIS(int[] nums) {
-        if(nums.length==0) return 0;
+        if (nums.length == 0) return 0;
         int[] a = new int[nums.length];
         int[] b = new int[nums.length];
-        Arrays.fill(b,1);
-        int count=1;
+        Arrays.fill(b, 1);
+        int count = 1;
         int max = 0;
-        for(int i = 1;i<nums.length;i++){
-            for(int j= 0;j<i;j++){
-                if(nums[i]>nums[j]){
-                    if(a[j]>=a[i]){
-                        a[i]=a[j]+1;
-                        b[i]=b[j];
-                    }
-                    else if(a[j]+1==a[i]) b[i]+=b[j];
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    if (a[j] >= a[i]) {
+                        a[i] = a[j] + 1;
+                        b[i] = b[j];
+                    } else if (a[j] + 1 == a[i]) b[i] += b[j];
                 }
             }
-            if(a[i]>max){
+            if (a[i] > max) {
                 count = b[i];
                 max = a[i];
-            }
-            else if(a[i]==max) count+=b[i];
+            } else if (a[i] == max) count += b[i];
         }
         return count;
     }
 
+    int biggerSum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        if (root == null) return root;
+        if (root.right != null) convertBST(root.right);
+        root.val += biggerSum;
+        biggerSum = root.val;
+        if (root.left != null) convertBST(root.left);
+        return root;
+    }
+
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int index = (nums[i] - 1) % (nums.length);
+            nums[index] += nums.length;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i]<=nums.length) res.add(i+1);
+        }
+        return res;
+    }
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {2,2,2,2,2};
+        int[] nums = {4,3,2,7,8,2,3,1};
         String a = "1";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.findNumberOfLIS(nums));
+        System.out.println(solution.findDisappearedNumbers(nums));
 //        solution.rotate(nums,2);
-        Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
-//        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
-        ListNode head = solution.creatList(nums);
+        Integer[] arr = new Integer[]{1, null, null, 4, -8, null, -37, -28,};
+        TreeNode root = solution.createBinaryTreeByArray(arr, 0);
+        solution.TreeTravel(solution.convertBST(root));
+//        ListNode head = solution.creatList(nums);
 //        System.out.println(solution.isPalindrome(head));
 //        solution.travelList(solution.removeElements(head, 2));
 //        int[] array = solution.diStringMatch(b);
