@@ -1386,25 +1386,61 @@ class Solution {
         if (root.val == sum) count += 1;
         return count;
     }
+
     int ans;
+
     public int diameterOfBinaryTree(TreeNode root) {
         ans = 1;
         maxLength(root);
-        return ans-1;
+        return ans - 1;
     }
 
     public int maxLength(TreeNode root) {
         if (root == null) return 0;
         int left = maxLength(root.left);
         int right = maxLength(root.right);
-        ans = Math.max(ans,left+right+1);
-        return Math.max(left, right)+1;
+        ans = Math.max(ans, left + right + 1);
+        return Math.max(left, right) + 1;
     }
+
+    public int findUnsortedSubarray(int[] nums) {
+        int[] copy = Arrays.copyOfRange(nums, 0, nums.length);
+        Arrays.sort(copy);
+        int left = 0;
+        while (left < nums.length) {
+            if (copy[left] != nums[left]) break;
+            left++;
+        }
+        int right = nums.length - 1;
+        while (right > left) {
+            if (copy[right] != nums[right]) break;
+            right--;
+        }
+        return right - left + 1;
+    }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        List<Integer> empetySet = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(empetySet);
+        for(int num : nums) {
+            int size = res.size();
+            for (int i = 0; i < size; i++) {
+                List<Integer> tempSet = new ArrayList<>();
+                tempSet.addAll(res.get(i));
+                tempSet.add(num);
+                res.add(tempSet);
+            }
+        }
+        return res;
+    }
+
+
 
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {4, 3, 2, 7, 8, 2, 3, 1};
+        int[] nums = {1,2,3};
         String a = "1";
         int[] values = {3, 9, 20, 15, 7};
         int[] labels = {9, 3, 15, 20, 7};
@@ -1415,9 +1451,10 @@ class Solution {
 //        solution.TreeTravel(solution.buildTree(values,labels));
 //        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
-        Integer[] arr = new Integer[]{1,2,3,4,5};
+        Integer[] arr = new Integer[]{1, 2, 3, 4, 5};
         TreeNode root = solution.createBinaryTreeByArray(arr, 0);
-        System.out.println(solution.diameterOfBinaryTree(root));
+        solution.subsets(nums);
+        System.out.println("111");
 //        solution.TreeTravel(solution.convertBST(root));
 //        ListNode head = solution.creatList(nums);
 //        System.out.println(solution.isPalindrome(head));
