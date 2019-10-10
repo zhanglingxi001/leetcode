@@ -1060,6 +1060,30 @@ class Solution {
         return count;
     }
 
+    int biggerSum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        if (root == null) return root;
+        if (root.right != null) convertBST(root.right);
+        root.val += biggerSum;
+        biggerSum = root.val;
+        if (root.left != null) convertBST(root.left);
+        return root;
+    }
+
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int index = (nums[i] - 1) % (nums.length);
+            nums[index] += nums.length;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] <= nums.length) res.add(i + 1);
+        }
+        return res;
+    }
+
+
     public int evalRPN(String[] tokens) {
         Deque<Integer> nums = new LinkedList<>();
         for (String s : tokens) {
@@ -1331,12 +1355,12 @@ class Solution {
 
 
     public String longestPalindrome(String s) {
-        if(s.length()==0) return "";
+        if (s.length() == 0) return "";
         int max = 0;
         int[] res = new int[2];
         int[][] map = new int[s.length()][s.length()];
-        for(int i=0;i<s.length();i++){
-            for(int j=0;j<s.length();j++) {
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < s.length(); j++) {
                 if (j + i > s.length() - 1) break;
                 if (i == 0) map[j][j] = 1;
                 else if (i == 1 && s.charAt(j) == s.charAt(j + 1)) map[j][j + 1] = 1;
@@ -1348,25 +1372,54 @@ class Solution {
                 }
             }
         }
-        return s.substring(res[0],res[1]+1);
+        return s.substring(res[0], res[1] + 1);
+    }
+
+    public int pathSum(TreeNode root, int sum) {
+        return pathSum0(root, sum, true);
+    }
+
+    public int pathSum0(TreeNode root, int sum, boolean isFirst) {
+        if (root == null) return 0;
+        int count = pathSum0(root.left, sum - root.val, false) + pathSum0(root.right, sum - root.val, false);
+        if (isFirst) count += pathSum0(root.left, sum, isFirst) + pathSum0(root.right, sum, isFirst);
+        if (root.val == sum) count += 1;
+        return count;
+    }
+    int ans;
+    public int diameterOfBinaryTree(TreeNode root) {
+        ans = 1;
+        maxLength(root);
+        return ans-1;
+    }
+
+    public int maxLength(TreeNode root) {
+        if (root == null) return 0;
+        int left = maxLength(root.left);
+        int right = maxLength(root.right);
+        ans = Math.max(ans,left+right+1);
+        return Math.max(left, right)+1;
     }
 
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1, 0, 2, 3, 4};
+        int[] nums = {4, 3, 2, 7, 8, 2, 3, 1};
+        String a = "1";
         int[] values = {3, 9, 20, 15, 7};
         int[] labels = {9, 3, 15, 20, 7};
-        String a = "babad";
         String b = "IDID";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        System.out.println(solution.longestPalindrome(a));
+//        System.out.println(solution.findDisappearedNumbers(nums));
+//        System.out.println(solution.longestPalindrome(a));
 //        solution.TreeTravel(solution.buildTree(values,labels));
 //        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
-        Integer[] arr = new Integer[]{0, null, 1, null, 2, null, 3};
-//        TreeNode root = solution.createBinaryTreeByArray(arr, 5);
-        ListNode head = solution.creatList(nums);
+        Integer[] arr = new Integer[]{1,2,3,4,5};
+        TreeNode root = solution.createBinaryTreeByArray(arr, 0);
+        System.out.println(solution.diameterOfBinaryTree(root));
+//        solution.TreeTravel(solution.convertBST(root));
+//        ListNode head = solution.creatList(nums);
 //        System.out.println(solution.isPalindrome(head));
 //        solution.travelList(solution.removeElements(head, 2));
 //        int[] array = solution.diStringMatch(b);
