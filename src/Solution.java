@@ -1423,7 +1423,7 @@ class Solution {
         List<Integer> empetySet = new ArrayList<>();
         List<List<Integer>> res = new ArrayList<>();
         res.add(empetySet);
-        for(int num : nums) {
+        for (int num : nums) {
             int size = res.size();
             for (int i = 0; i < size; i++) {
                 List<Integer> tempSet = new ArrayList<>();
@@ -1435,12 +1435,92 @@ class Solution {
         return res;
     }
 
+    public int[] countBits(int num) {
+        int[] res = new int[num + 1];
+        int b = 1;
+        while (b <= num) {
+            for (int i = 0; i <= b && b + i <= num; i++)
+                res[i + b] = res[i] + 1;
+            b *= 2;
+        }
+        return res;
+    }
 
+    public List<List<Integer>> permute(int[] nums) {
+        int[] used = new int[nums.length];
+        return allArrange(nums, used);
+    }
 
+    public List<List<Integer>> allArrange(int[] nums, int[] used) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i] == 1) continue;
+            used[i]++;
+            List<List<Integer>> temp = allArrange(nums, used);
+            for (int j = 0; j < temp.size(); j++) {
+                List<Integer> arrange = new ArrayList<>();
+                arrange.add(nums[i]);
+                arrange.addAll(temp.get(j));
+                res.add(arrange);
+            }
+            used[i]--;
+        }
+        if (res.size() == 0) {
+            List<Integer> arrange = new ArrayList<>();
+            res.add(arrange);
+        }
+        return res;
+    }
+
+    public List<String> generateParenthesis(int n) {
+        int[] brackets = {n, n};
+        List<String> res = new ArrayList<>();
+        generate(brackets, res, new StringBuilder());
+        return res;
+    }
+
+    public void generate(int[] brackets, List<String> res, StringBuilder temp) {
+        if (brackets[0] > brackets[1]) return;
+        if (brackets[0] == 0 && brackets[1] == 0) {
+            res.add(temp.toString());
+            return;
+        }
+        for (int i = 0; i <= 1; i++) {
+            if (brackets[i] == 0) continue;
+            brackets[i]--;
+            temp.append((i == 0) ? '(' : ')');
+            generate(brackets, res, temp);
+            brackets[i]++;
+            temp.deleteCharAt(temp.length() - 1);
+        }
+    }
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        combinationSum0(candidates, res, new ArrayList<Integer>(), target);
+        return res;
+    }
+
+    public void combinationSum0(int[] candidates, List<List<Integer>> res, List<Integer> temp, int remain) {
+        if (remain == 0) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = 0; i < candidates.length; i++) {
+            if (candidates[i] > remain) continue;
+            // 为了去重，只需判断当前元素不小于上一个已选取元素即可
+            if (temp.size() != 0 && candidates[i] < temp.get(temp.size() - 1)) continue;
+            temp.add(candidates[i]);
+            remain -= candidates[i];
+            combinationSum0(candidates, res, temp, remain);
+            temp.remove(temp.size() - 1);
+            remain += candidates[i];
+        }
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1,2,3};
+        int[] nums = {1, 2, 3};
         String a = "1";
         int[] values = {3, 9, 20, 15, 7};
         int[] labels = {9, 3, 15, 20, 7};
@@ -1453,8 +1533,7 @@ class Solution {
 //        solution.rotate(nums,2);
         Integer[] arr = new Integer[]{1, 2, 3, 4, 5};
         TreeNode root = solution.createBinaryTreeByArray(arr, 0);
-        solution.subsets(nums);
-        System.out.println("111");
+        solution.generateParenthesis(1);
 //        solution.TreeTravel(solution.convertBST(root));
 //        ListNode head = solution.creatList(nums);
 //        System.out.println(solution.isPalindrome(head));
