@@ -1518,6 +1518,25 @@ class Solution {
         }
     }
 
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<>();
+        String str = "";
+        Travel(root, result, str);
+        return result;
+    }
+
+    public void Travel(TreeNode root, List<String> result, String str) {
+        if (root == null) return;
+        String temp;
+        if(str.length()==0) temp = (String.valueOf(root.val));
+        else temp = str + "->" + (String.valueOf(root.val));
+        if(root.left==null&&root.right==null) result.add(temp);
+        else {
+            Travel(root.left,result,temp);
+            Travel(root.right,result,temp);
+        }
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = {1, 2, 3};
@@ -1531,9 +1550,9 @@ class Solution {
 //        solution.TreeTravel(solution.buildTree(values,labels));
 //        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
-        Integer[] arr = new Integer[]{1, 2, 3, 4, 5};
+        Integer[] arr = new Integer[]{1, 2, 3, 5};
         TreeNode root = solution.createBinaryTreeByArray(arr, 0);
-        solution.generateParenthesis(1);
+        solution.binaryTreePaths(root);
 //        solution.TreeTravel(solution.convertBST(root));
 //        ListNode head = solution.creatList(nums);
 //        System.out.println(solution.isPalindrome(head));
