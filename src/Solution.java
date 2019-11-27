@@ -1537,15 +1537,15 @@ class Solution {
         }
     }
 
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = {1, 2, 3};
-        String a = "1";
+        String a = "abba";
         int[] values = {3, 9, 20, 15, 7};
         int[] labels = {9, 3, 15, 20, 7};
-        String b = "IDID";
+        String b = "dog dog dog dog";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-//        System.out.println(solution.findDisappearedNumbers(nums));
 //        System.out.println(solution.longestPalindrome(a));
 //        solution.TreeTravel(solution.buildTree(values,labels));
 //        System.out.println(solution.findNumberOfLIS(nums));
