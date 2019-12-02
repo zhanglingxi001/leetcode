@@ -1528,12 +1528,70 @@ class Solution {
     public void Travel(TreeNode root, List<String> result, String str) {
         if (root == null) return;
         String temp;
-        if(str.length()==0) temp = (String.valueOf(root.val));
+        if (str.length() == 0) temp = (String.valueOf(root.val));
         else temp = str + "->" + (String.valueOf(root.val));
-        if(root.left==null&&root.right==null) result.add(temp);
+        if (root.left == null && root.right == null) result.add(temp);
         else {
-            Travel(root.left,result,temp);
-            Travel(root.right,result,temp);
+            Travel(root.left, result, temp);
+            Travel(root.right, result, temp);
+        }
+    }
+
+    public boolean carPooling(int[][] trips, int capacity) {
+        carPoolinghelper(trips);
+        List<Integer> list = new ArrayList<>();
+        int current = 0;
+        for (int i = 0; i < trips.length; i++) {
+            if (trips[i][1] < current) return false;
+            current = trips[i][1];
+            if (list.size() != 0) {
+                for (int j = 0; j < list.size(); j++) {
+                    if (trips[list.get(j)][2] <= current) {
+                        capacity += trips[list.get(j)][0];
+                        list.remove(j);
+                    }
+                }
+            }
+            if (trips[i][0] > capacity) return false;
+            if (list.size() == 0) {
+                list.add(i);
+                capacity -= trips[i][0];
+                continue;
+            }
+            int flag = 0;
+            for (int j = i + 1; j < trips.length; j++) {
+                if (trips[i][2] > trips[j][1]) {
+                    list.add(i);
+                    capacity -= trips[i][0];
+                    flag = 1;
+                    break;
+                }
+            }
+            for (int j = 0; j < list.size() && flag == 0; j++) {
+                if (trips[list.get(j)][2] < trips[i][2]) {
+                    list.add(i);
+                    capacity -= trips[i][0];
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void carPoolinghelper(int[][] trips) {
+        for (int i = 0; i < trips.length; i++) {
+            for (int j = i + 1; j < trips.length; j++) {
+                if (trips[i][1] > trips[j][1]) {
+                    int[] temp = trips[i];
+                    trips[i] = trips[j];
+                    trips[j] = temp;
+                }
+                if(trips[i][1] == trips[j][1] && trips[i][2] > trips[j][2]){
+                    int[] temp = trips[i];
+                    trips[i] = trips[j];
+                    trips[j] = temp;
+                }
+            }
         }
     }
 
@@ -1546,7 +1604,8 @@ class Solution {
         int[] labels = {9, 3, 15, 20, 7};
         String b = "dog dog dog dog";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-//        System.out.println(solution.longestPalindrome(a));
+        int[][] trips = {{2,4,6},{3,2,7},{10,7,9},{8,2,5}};
+        System.out.println(solution.carPooling(trips, 14));
 //        solution.TreeTravel(solution.buildTree(values,labels));
 //        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
