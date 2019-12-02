@@ -1595,6 +1595,50 @@ class Solution {
         }
     }
 
+    public int balancedStringSplit(String s) {
+        int count = 0;
+        int temp = 0;
+        for(char c : s.toCharArray()){
+            if(c == 'L') temp ++;
+            else temp--;
+            if(temp==0) count++;
+        }
+        return count;
+    }
+
+    public int[][] flipAndInvertImage(int[][] A) {
+        for(int i=0;i<A.length;i++){
+            int[] temp = new int[A[i].length];
+            for(int j=0;j<A[i].length;j++)
+                temp[j] = 1 - A[i][A[i].length-1-j];
+            A[i] = temp;
+        }
+        return A;
+    }
+
+    public void reverseString(char[] s) {
+        int len = s.length/2;
+        for(int i=0;i<len;i++){
+            char temp = s[i];
+            s[i] = s[s.length-1-i];
+            s[s.length-1-i] = temp;
+        }
+    }
+
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        for(int i :nums1) set1.add(i);
+        for(int i :nums2) set2.add(i);
+        set1.retainAll(set2);
+        int[] res = new int[set1.size()];
+        int index = 0;
+        for(int i :set1)
+            res[index++] = i;
+        return res;
+    }
+
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
