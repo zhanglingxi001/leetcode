@@ -1586,7 +1586,7 @@ class Solution {
                     trips[i] = trips[j];
                     trips[j] = temp;
                 }
-                if(trips[i][1] == trips[j][1] && trips[i][2] > trips[j][2]){
+                if (trips[i][1] == trips[j][1] && trips[i][2] > trips[j][2]) {
                     int[] temp = trips[i];
                     trips[i] = trips[j];
                     trips[j] = temp;
@@ -1598,58 +1598,148 @@ class Solution {
     public int balancedStringSplit(String s) {
         int count = 0;
         int temp = 0;
-        for(char c : s.toCharArray()){
-            if(c == 'L') temp ++;
+        for (char c : s.toCharArray()) {
+            if (c == 'L') temp++;
             else temp--;
-            if(temp==0) count++;
+            if (temp == 0) count++;
         }
         return count;
     }
 
     public int[][] flipAndInvertImage(int[][] A) {
-        for(int i=0;i<A.length;i++){
+        for (int i = 0; i < A.length; i++) {
             int[] temp = new int[A[i].length];
-            for(int j=0;j<A[i].length;j++)
-                temp[j] = 1 - A[i][A[i].length-1-j];
+            for (int j = 0; j < A[i].length; j++)
+                temp[j] = 1 - A[i][A[i].length - 1 - j];
             A[i] = temp;
         }
         return A;
     }
 
     public void reverseString(char[] s) {
-        int len = s.length/2;
-        for(int i=0;i<len;i++){
+        int len = s.length / 2;
+        for (int i = 0; i < len; i++) {
             char temp = s[i];
-            s[i] = s[s.length-1-i];
-            s[s.length-1-i] = temp;
+            s[i] = s[s.length - 1 - i];
+            s[s.length - 1 - i] = temp;
         }
     }
 
     public int[] intersection(int[] nums1, int[] nums2) {
         Set<Integer> set1 = new HashSet<>();
         Set<Integer> set2 = new HashSet<>();
-        for(int i :nums1) set1.add(i);
-        for(int i :nums2) set2.add(i);
+        for (int i : nums1) set1.add(i);
+        for (int i : nums2) set2.add(i);
         set1.retainAll(set2);
         int[] res = new int[set1.size()];
         int index = 0;
-        for(int i :set1)
+        for (int i : set1)
             res[index++] = i;
         return res;
     }
 
+    public ListNode[] splitListToParts(ListNode root, int k) {
+        ListNode[] res = new ListNode[k];
+        ListNode p = root;
+        int length = 0;
+        while (p != null) {
+            length += 1;
+            p = p.next;
+        }
+        if (length / k <= 0) {
+            for (int i = 0; i < k && root != null; i++) {
+                p = root.next;
+                root.next = null;
+                res[i] = root;
+                root = p;
+            }
+        } else {
+            int remain = length % k;
+            for (int i = 0; i < k; i++) {
+                int j = remain <= 0 ? 1 : 0;
+                p = root;
+                for (; j < length / k; j++) {
+                    p = p.next;
+                }
+                res[i] = root;
+                root = p.next;
+                p.next = null;
+                remain -= 1;
+            }
+        }
+        return res;
+    }
 
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        int color = image[sr][sc];
+        if (color == newColor) return image;
+        image[sr][sc] = newColor;
+        if (sr - 1 >= 0 && image[sr - 1][sc] == color) floodFill(image, sr - 1, sc, newColor);
+        if (sr + 1 <= image.length - 1 && image[sr + 1][sc] == color) floodFill(image, sr + 1, sc, newColor);
+        if (sc - 1 >= 0 && image[sr][sc - 1] == color) floodFill(image, sr, sc - 1, newColor);
+        if (sc + 1 <= image[0].length - 1 && image[sr][sc + 1] == color) floodFill(image, sr, sc + 1, newColor);
+        return image;
+    }
+
+    public int[] asteroidCollision(int[] asteroids) {
+        List<Integer> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        for (int i : asteroids) temp.add(i);
+        for (int i = 0; i < temp.size(); i++) {
+            if (temp.get(i) < 0) {
+                boolean both = false;
+                while (res.size() != 0 && res.get(res.size() - 1) > 0) {
+                    if (res.get(res.size() - 1) + temp.get(i) < 0) {
+                        res.remove(res.size() - 1);
+                        continue;
+                    }
+                    if (res.get(res.size() - 1) + temp.get(i) == 0) {
+                        res.remove(res.size() - 1);
+                        both = true;
+                        break;
+                    }
+                    if (res.get(res.size() - 1) + temp.get(i) > 0) {
+                        break;
+                    }
+                }
+                if (!both && (res.size() == 0 || res.get(res.size() - 1) < 0)) {
+                    res.add(temp.get(i));
+                    continue;
+                }
+            } else {
+                res.add(temp.get(i));
+            }
+        }
+        int[] result = new int[res.size()];
+        for (int i = 0; i < res.size(); i++)
+            result[i] = res.get(i);
+        return result;
+    }
+
+    public char nextGreatestLetter(char[] letters, char target) {
+        int min = 100;
+        char res = target;
+        for (char c : letters) {
+            if (c == target) continue;
+            int dis = (c - target + 26) % 26;
+            if (dis< min) {
+                min = dis;
+                res = c;
+            }
+        }
+        return res;
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = {1, 2, 3};
+        int[] nums = {-2, -1, 1, 2};
         String a = "abba";
         int[] values = {3, 9, 20, 15, 7};
         int[] labels = {9, 3, 15, 20, 7};
         String b = "dog dog dog dog";
         int[][] graph = {{1, 2}, {3}, {3}, {}};
-        int[][] trips = {{2,4,6},{3,2,7},{10,7,9},{8,2,5}};
-        System.out.println(solution.carPooling(trips, 14));
+        int[][] trips = {{2, 4, 6}, {3, 2, 7}, {10, 7, 9}, {8, 2, 5}};
+        System.out.println(solution.asteroidCollision(nums));
 //        solution.TreeTravel(solution.buildTree(values,labels));
 //        System.out.println(solution.findNumberOfLIS(nums));
 //        solution.rotate(nums,2);
@@ -1658,7 +1748,7 @@ class Solution {
         solution.binaryTreePaths(root);
 //        solution.TreeTravel(solution.convertBST(root));
 //        ListNode head = solution.creatList(nums);
-//        System.out.println(solution.isPalindrome(head));
+//        System.out.println(solution.splitListToParts(head, 3));
 //        solution.travelList(solution.removeElements(head, 2));
 //        int[] array = solution.diStringMatch(b);
 //        System.out.println("111");
